@@ -1,0 +1,21 @@
+# python
+__pycache__/
+*.pyc
+venv/
+.env
+
+# uploaded dataset
+*.csv
+uploads/
+dataset/
+
+# ML model files
+*.pkl
+*.joblib
+
+# react
+node_modules/
+build/
+
+# system files
+.DS_Store

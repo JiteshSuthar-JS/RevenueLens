@@ -1,0 +1,19 @@
+/* App.css — clean reset, won't interfere with Navbar */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  /* DO NOT add max-width, padding, or text-align here */
+  /* It breaks the full-width fixed navbar */
+  width: 100%;
+}
+
+body {
+  background: #f4f6fb;
+  font-family: 'DM Sans', sans-serif;
+  color: #0f172a;
+}

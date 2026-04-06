@@ -55,6 +55,7 @@ const Login = () => {
         if (mode === "login") {
           localStorage.setItem("token", data.token);
           localStorage.setItem("user", JSON.stringify(data.user));
+          localStorage.removeItem("forecastResults");
           navigate("/");
         } else {
           setSuccess("Account created! You can now log in.");

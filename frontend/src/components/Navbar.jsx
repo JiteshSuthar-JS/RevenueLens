@@ -25,6 +25,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("forecastResults");
     setDropdownOpen(false);
     navigate("/login");
   };

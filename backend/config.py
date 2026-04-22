@@ -7,7 +7,7 @@ SECRET_KEY      = "revenuelens_secret"
 
 MYSQL_HOST      = "localhost"
 MYSQL_USER      = "root"
-MYSQL_PASSWORD  = "root@123"       # ← change your password here
+MYSQL_PASSWORD  = "add your password here"
 MYSQL_DB        = "revenuelens"
 
 UPLOAD_FOLDER   = "uploads"

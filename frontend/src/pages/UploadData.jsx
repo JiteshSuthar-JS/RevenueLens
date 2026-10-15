@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import sampleData from "../assets/sampleForecast.json";
 
 const API = "http://127.0.0.1:5000";
 
@@ -265,6 +266,32 @@ const UploadData = () => {
                   <div className="up-drop-title">Drop your CSV file here</div>
                   <div className="up-drop-sub">or click to browse — CSV, XLSX supported</div>
                   <button className="up-browse">Browse File</button>
+
+                  <div style={{ marginTop: "18px", paddingTop: "14px", borderTop: "1px dashed #e2e8f0" }}>
+                    <span style={{ fontSize: "11.5px", color: "#64748b", display: "block", marginBottom: "8px" }}>
+                      Don't have a dataset ready?
+                    </span>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        localStorage.setItem("forecastResults", JSON.stringify(sampleData));
+                        setStep(3);
+                      }}
+                      style={{
+                        padding: "7px 16px",
+                        background: "#fff",
+                        border: "1px solid #cbd5e1",
+                        borderRadius: "7px",
+                        fontSize: "12px",
+                        fontWeight: "600",
+                        color: "#2563eb",
+                        cursor: "pointer",
+                      }}
+                    >
+                      ✨ Quick Test with Sample Dataset
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <>
@@ -341,13 +368,28 @@ const UploadData = () => {
               </div>
               <div className="up-success-title">Forecast Complete!</div>
               <div className="up-success-sub">ML model ran successfully. Your results are ready on the Dashboard.</div>
-              <button className="up-btn up-btn-green" onClick={() => navigate("/")}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-                  <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
-                </svg>
-                View Dashboard
-              </button>
+              <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+                <button className="up-btn up-btn-green" onClick={() => navigate("/")} style={{ flex: 1 }}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                  </svg>
+                  Dashboard
+                </button>
+                <button
+                  className="up-btn"
+                  onClick={() => navigate("/reports")}
+                  style={{
+                    flex: 1,
+                    background: "#fff",
+                    border: "1.5px solid #cbd5e1",
+                    color: "#334155",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                  }}
+                >
+                  📑 View Reports
+                </button>
+              </div>
             </div>
           )}
 

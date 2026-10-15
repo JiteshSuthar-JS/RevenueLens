@@ -48,8 +48,25 @@ def forecast():
     data      = request.get_json()
     file_path = data.get("file_path")
 
-    if not file_path or not os.path.exists(file_path):
-        return jsonify({"error": "File not found. Please upload again."}), 400
+    if not file_path:
+        return jsonify({"error": "No file path provided."}), 400
+
+    if not os.path.exists(file_path):
+        # Fallback check inside config.UPLOAD_FOLDER or uploads/
+        candidates = [
+            os.path.join(config.UPLOAD_FOLDER, os.path.basename(file_path)),
+            os.path.join(os.getcwd(), file_path),
+            os.path.join(os.getcwd(), "uploads", os.path.basename(file_path)),
+            os.path.join(config.BASE_DIR, "uploads", os.path.basename(file_path))
+        ]
+        found = False
+        for c in candidates:
+            if os.path.exists(c):
+                file_path = c
+                found = True
+                break
+        if not found:
+            return jsonify({"error": "File not found. Please upload again."}), 400
 
     try:
         result = run_forecast(file_path)   # all ML logic in model.py

@@ -1,0 +1,446 @@
+{
+  "accuracy": 76.3,
+  "total_actual": 9760222,
+  "next_month_total": 355642,
+  "total_forecast": 355642,
+  "total_units": 96428,
+  "rows": 2747,
+  "growth_rate": -22.3,
+  "confidence_range": [
+    277321,
+    433963
+  ],
+  "last6_actual": [
+    372803,
+    339543,
+    303983,
+    374263,
+    261633,
+    457861
+  ],
+  "last6_labels": [
+    "2019-12",
+    "2020-01",
+    "2020-02",
+    "2020-03",
+    "2020-04",
+    "2020-05"
+  ],
+  "next_month_label": "2020-06",
+  "forecast_3m": [
+    355642,
+    428458,
+    693939
+  ],
+  "forecast_3m_lb": [
+    "2020-06",
+    "2020-07",
+    "2020-08"
+  ],
+  "future_30days": [
+    {
+      "date": "2020-06-01",
+      "value": 12565,
+      "lower_bound": 10303,
+      "upper_bound": 14827,
+      "day_name": "Mon"
+    },
+    {
+      "date": "2020-06-02",
+      "value": 13226,
+      "lower_bound": 10845,
+      "upper_bound": 15607,
+      "day_name": "Tue"
+    },
+    {
+      "date": "2020-06-03",
+      "value": 11871,
+      "lower_bound": 9734,
+      "upper_bound": 14008,
+      "day_name": "Wed"
+    },
+    {
+      "date": "2020-06-04",
+      "value": 10139,
+      "lower_bound": 8314,
+      "upper_bound": 11964,
+      "day_name": "Thu"
+    },
+    {
+      "date": "2020-06-05",
+      "value": 11656,
+      "lower_bound": 9558,
+      "upper_bound": 13754,
+      "day_name": "Fri"
+    },
+    {
+      "date": "2020-06-06",
+      "value": 11389,
+      "lower_bound": 9339,
+      "upper_bound": 13439,
+      "day_name": "Sat"
+    },
+    {
+      "date": "2020-06-07",
+      "value": 11277,
+      "lower_bound": 9247,
+      "upper_bound": 13307,
+      "day_name": "Sun"
+    },
+    {
+      "date": "2020-06-08",
+      "value": 10782,
+      "lower_bound": 8841,
+      "upper_bound": 12723,
+      "day_name": "Mon"
+    },
+    {
+      "date": "2020-06-09",
+      "value": 11946,
+      "lower_bound": 9796,
+      "upper_bound": 14096,
+      "day_name": "Tue"
+    },
+    {
+      "date": "2020-06-10",
+      "value": 12009,
+      "lower_bound": 9847,
+      "upper_bound": 14171,
+      "day_name": "Wed"
+    },
+    {
+      "date": "2020-06-11",
+      "value": 10257,
+      "lower_bound": 8411,
+      "upper_bound": 12103,
+      "day_name": "Thu"
+    },
+    {
+      "date": "2020-06-12",
+      "value": 11791,
+      "lower_bound": 9669,
+      "upper_bound": 13913,
+      "day_name": "Fri"
+    },
+    {
+      "date": "2020-06-13",
+      "value": 11521,
+      "lower_bound": 9447,
+      "upper_bound": 13595,
+      "day_name": "Sat"
+    },
+    {
+      "date": "2020-06-14",
+      "value": 12008,
+      "lower_bound": 9847,
+      "upper_bound": 14169,
+      "day_name": "Sun"
+    },
+    {
+      "date": "2020-06-15",
+      "value": 12858,
+      "lower_bound": 10544,
+      "upper_bound": 15172,
+      "day_name": "Mon"
+    },
+    {
+      "date": "2020-06-16",
+      "value": 12084,
+      "lower_bound": 9909,
+      "upper_bound": 14259,
+      "day_name": "Tue"
+    },
+    {
+      "date": "2020-06-17",
+      "value": 12147,
+      "lower_bound": 9961,
+      "upper_bound": 14333,
+      "day_name": "Wed"
+    },
+    {
+      "date": "2020-06-18",
+      "value": 10375,
+      "lower_bound": 8508,
+      "upper_bound": 12242,
+      "day_name": "Thu"
+    },
+    {
+      "date": "2020-06-19",
+      "value": 11926,
+      "lower_bound": 9779,
+      "upper_bound": 14073,
+      "day_name": "Fri"
+    },
+    {
+      "date": "2020-06-20",
+      "value": 11653,
+      "lower_bound": 9555,
+      "upper_bound": 13751,
+      "day_name": "Sat"
+    },
+    {
+      "date": "2020-06-21",
+      "value": 11537,
+      "lower_bound": 9460,
+      "upper_bound": 13614,
+      "day_name": "Sun"
+    },
+    {
+      "date": "2020-06-22",
+      "value": 11031,
+      "lower_bound": 9045,
+      "upper_bound": 13017,
+      "day_name": "Mon"
+    },
+    {
+      "date": "2020-06-23",
+      "value": 12221,
+      "lower_bound": 10021,
+      "upper_bound": 14421,
+      "day_name": "Tue"
+    },
+    {
+      "date": "2020-06-24",
+      "value": 12285,
+      "lower_bound": 10074,
+      "upper_bound": 14496,
+      "day_name": "Wed"
+    },
+    {
+      "date": "2020-06-25",
+      "value": 10493,
+      "lower_bound": 8604,
+      "upper_bound": 12382,
+      "day_name": "Thu"
+    },
+    {
+      "date": "2020-06-26",
+      "value": 12061,
+      "lower_bound": 9890,
+      "upper_bound": 14232,
+      "day_name": "Fri"
+    },
+    {
+      "date": "2020-06-27",
+      "value": 11784,
+      "lower_bound": 9663,
+      "upper_bound": 13905,
+      "day_name": "Sat"
+    },
+    {
+      "date": "2020-06-28",
+      "value": 13756,
+      "lower_bound": 11280,
+      "upper_bound": 16232,
+      "day_name": "Sun"
+    },
+    {
+      "date": "2020-06-29",
+      "value": 13151,
+      "lower_bound": 10784,
+      "upper_bound": 15518,
+      "day_name": "Mon"
+    },
+    {
+      "date": "2020-06-30",
+      "value": 13843,
+      "lower_bound": 11351,
+      "upper_bound": 16335,
+      "day_name": "Tue"
+    }
+  ],
+  "products": [
+    {
+      "product": "Classic Cars",
+      "actual": 3842869,
+      "last6_actual": [
+        101697,
+        139087,
+        126816,
+        91390,
+        111563,
+        184385
+      ],
+      "last6_labels": [
+        "2019-12",
+        "2020-01",
+        "2020-02",
+        "2020-03",
+        "2020-04",
+        "2020-05"
+      ],
+      "forecast": 125945,
+      "forecast_share": 35.4,
+      "stock_needed": 1094,
+      "avg_price": 115.15,
+      "growth": -31.7,
+      "accuracy": 75.7
+    },
+    {
+      "product": "Vintage Cars",
+      "actual": 1806676,
+      "last6_actual": [
+        83615,
+        74385,
+        61215,
+        75023,
+        40161,
+        73094
+      ],
+      "last6_labels": [
+        "2019-12",
+        "2020-01",
+        "2020-02",
+        "2020-03",
+        "2020-04",
+        "2020-05"
+      ],
+      "forecast": 61220,
+      "forecast_share": 17.2,
+      "stock_needed": 680,
+      "avg_price": 90.07,
+      "growth": -16.2,
+      "accuracy": 78.8
+    },
+    {
+      "product": "Planes",
+      "actual": 969323,
+      "last6_actual": [
+        61377,
+        11262,
+        31040,
+        79735,
+        43764,
+        34273
+      ],
+      "last6_labels": [
+        "2019-12",
+        "2020-01",
+        "2020-02",
+        "2020-03",
+        "2020-04",
+        "2020-05"
+      ],
+      "forecast": 51301,
+      "forecast_share": 14.4,
+      "stock_needed": 563,
+      "avg_price": 91.14,
+      "growth": 49.7,
+      "accuracy": 76.8
+    },
+    {
+      "product": "Motorcycles",
+      "actual": 1103512,
+      "last6_actual": [
+        20847,
+        39913,
+        47951,
+        47831,
+        59862,
+        39390
+      ],
+      "last6_labels": [
+        "2019-12",
+        "2020-01",
+        "2020-02",
+        "2020-03",
+        "2020-04",
+        "2020-05"
+      ],
+      "forecast": 47825,
+      "forecast_share": 13.4,
+      "stock_needed": 480,
+      "avg_price": 99.59,
+      "growth": 21.4,
+      "accuracy": 75.2
+    },
+    {
+      "product": "Trucks and Buses",
+      "actual": 1111559,
+      "last6_actual": [
+        60550,
+        36577,
+        27816,
+        14579,
+        0,
+        89726
+      ],
+      "last6_labels": [
+        "2019-12",
+        "2020-01",
+        "2020-02",
+        "2020-03",
+        "2020-04",
+        "2020-05"
+      ],
+      "forecast": 33915,
+      "forecast_share": 9.5,
+      "stock_needed": 323,
+      "avg_price": 105.07,
+      "growth": -62.2,
+      "accuracy": 73.0
+    },
+    {
+      "product": "Ships",
+      "actual": 700039,
+      "last6_actual": [
+        24080,
+        31808,
+        1934,
+        52765,
+        6284,
+        26735
+      ],
+      "last6_labels": [
+        "2019-12",
+        "2020-01",
+        "2020-02",
+        "2020-03",
+        "2020-04",
+        "2020-05"
+      ],
+      "forecast": 27893,
+      "forecast_share": 7.8,
+      "stock_needed": 318,
+      "avg_price": 87.63,
+      "growth": 4.3,
+      "accuracy": 76.2
+    },
+    {
+      "product": "Trains",
+      "actual": 226243,
+      "last6_actual": [
+        20636,
+        6510,
+        7210,
+        12939,
+        0,
+        10258
+      ],
+      "last6_labels": [
+        "2019-12",
+        "2020-01",
+        "2020-02",
+        "2020-03",
+        "2020-04",
+        "2020-05"
+      ],
+      "forecast": 7543,
+      "forecast_share": 2.1,
+      "stock_needed": 90,
+      "avg_price": 83.42,
+      "growth": -26.5,
+      "accuracy": 75.7
+    }
+  ],
+  "metrics": {
+    "top_product": "Classic Cars",
+    "top_growth_product": "Planes",
+    "total_stock_needed": 3548,
+    "avg_order_value": 3553.05,
+    "peak_month": "2019-11",
+    "peak_month_value": 1058699,
+    "date_range": "Jan 2018 \u2013 May 2020",
+    "model_type": "Ensemble (Ridge Regression + Gradient Boosted Regressor)"
+  }
+}

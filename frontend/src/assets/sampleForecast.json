@@ -1,15 +1,73 @@
 {
-  "accuracy": 76.3,
+  "selected_model": "Ridge Regression",
+  "accuracy": 89.5,
+  "scorecard": [
+    {
+      "model": "Ridge Regression",
+      "mae": 38307.36,
+      "rmse": 40481.83,
+      "wape": 10.5,
+      "mase": 0.25,
+      "accuracy": 89.5,
+      "is_winner": true
+    },
+    {
+      "model": "Ensemble (Ridge + GBR)",
+      "mae": 69200.12,
+      "rmse": 73490.92,
+      "wape": 19.0,
+      "mase": 0.45,
+      "accuracy": 81.0,
+      "is_winner": false
+    },
+    {
+      "model": "Naive Baseline",
+      "mae": 88835.99,
+      "rmse": 100683.27,
+      "wape": 24.4,
+      "mase": 0.58,
+      "accuracy": 75.6,
+      "is_winner": false
+    },
+    {
+      "model": "Gradient Boosting",
+      "mae": 100092.87,
+      "rmse": 106789.99,
+      "wape": 27.5,
+      "mase": 0.65,
+      "accuracy": 72.5,
+      "is_winner": false
+    },
+    {
+      "model": "Seasonal Naive",
+      "mae": 136145.62,
+      "rmse": 147752.45,
+      "wape": 37.3,
+      "mase": 0.89,
+      "accuracy": 62.7,
+      "is_winner": false
+    },
+    {
+      "model": "Holt Linear Smoothing",
+      "mae": 151788.45,
+      "rmse": 170095.37,
+      "wape": 41.6,
+      "mase": 0.99,
+      "accuracy": 58.4,
+      "is_winner": false
+    }
+  ],
+  "confidence_range": [
+    267434,
+    424766
+  ],
+  "residual_std": 61457.47,
   "total_actual": 9760222,
-  "next_month_total": 355642,
-  "total_forecast": 355642,
+  "next_month_total": 346100,
+  "total_forecast": 346100,
+  "growth_rate": -24.4,
   "total_units": 96428,
   "rows": 2747,
-  "growth_rate": -22.3,
-  "confidence_range": [
-    277321,
-    433963
-  ],
   "last6_actual": [
     372803,
     339543,
@@ -28,9 +86,9 @@
   ],
   "next_month_label": "2020-06",
   "forecast_3m": [
-    355642,
-    428458,
-    693939
+    346100,
+    502907,
+    517855
   ],
   "forecast_3m_lb": [
     "2020-06",
@@ -40,212 +98,272 @@
   "future_30days": [
     {
       "date": "2020-06-01",
-      "value": 12565,
-      "lower_bound": 10303,
-      "upper_bound": 14827,
+      "value": 12270,
+      "lower_bound": 0,
+      "upper_bound": 26632,
+      "lower_95": 0,
+      "upper_95": 34262,
       "day_name": "Mon"
     },
     {
       "date": "2020-06-02",
-      "value": 13226,
-      "lower_bound": 10845,
-      "upper_bound": 15607,
+      "value": 12911,
+      "lower_bound": 0,
+      "upper_bound": 27273,
+      "lower_95": 0,
+      "upper_95": 34903,
       "day_name": "Tue"
     },
     {
       "date": "2020-06-03",
-      "value": 11871,
-      "lower_bound": 9734,
-      "upper_bound": 14008,
+      "value": 11585,
+      "lower_bound": 0,
+      "upper_bound": 25947,
+      "lower_95": 0,
+      "upper_95": 33577,
       "day_name": "Wed"
     },
     {
       "date": "2020-06-04",
-      "value": 10139,
-      "lower_bound": 8314,
-      "upper_bound": 11964,
+      "value": 9891,
+      "lower_bound": 0,
+      "upper_bound": 24253,
+      "lower_95": 0,
+      "upper_95": 31883,
       "day_name": "Thu"
     },
     {
       "date": "2020-06-05",
-      "value": 11656,
-      "lower_bound": 9558,
-      "upper_bound": 13754,
+      "value": 11367,
+      "lower_bound": 0,
+      "upper_bound": 25729,
+      "lower_95": 0,
+      "upper_95": 33359,
       "day_name": "Fri"
     },
     {
       "date": "2020-06-06",
-      "value": 11389,
-      "lower_bound": 9339,
-      "upper_bound": 13439,
+      "value": 11103,
+      "lower_bound": 0,
+      "upper_bound": 25465,
+      "lower_95": 0,
+      "upper_95": 33095,
       "day_name": "Sat"
     },
     {
       "date": "2020-06-07",
-      "value": 11277,
-      "lower_bound": 9247,
-      "upper_bound": 13307,
+      "value": 11106,
+      "lower_bound": 0,
+      "upper_bound": 25468,
+      "lower_95": 0,
+      "upper_95": 33098,
       "day_name": "Sun"
     },
     {
       "date": "2020-06-08",
-      "value": 10782,
-      "lower_bound": 8841,
-      "upper_bound": 12723,
+      "value": 10615,
+      "lower_bound": 0,
+      "upper_bound": 24977,
+      "lower_95": 0,
+      "upper_95": 32607,
       "day_name": "Mon"
     },
     {
       "date": "2020-06-09",
-      "value": 11946,
-      "lower_bound": 9796,
-      "upper_bound": 14096,
+      "value": 11635,
+      "lower_bound": 0,
+      "upper_bound": 25997,
+      "lower_95": 0,
+      "upper_95": 33627,
       "day_name": "Tue"
     },
     {
       "date": "2020-06-10",
-      "value": 12009,
-      "lower_bound": 9847,
-      "upper_bound": 14171,
+      "value": 11693,
+      "lower_bound": 0,
+      "upper_bound": 26055,
+      "lower_95": 0,
+      "upper_95": 33685,
       "day_name": "Wed"
     },
     {
       "date": "2020-06-11",
-      "value": 10257,
-      "lower_bound": 8411,
-      "upper_bound": 12103,
+      "value": 9983,
+      "lower_bound": 0,
+      "upper_bound": 24345,
+      "lower_95": 0,
+      "upper_95": 31975,
       "day_name": "Thu"
     },
     {
       "date": "2020-06-12",
-      "value": 11791,
-      "lower_bound": 9669,
-      "upper_bound": 13913,
+      "value": 11473,
+      "lower_bound": 0,
+      "upper_bound": 25835,
+      "lower_95": 0,
+      "upper_95": 33465,
       "day_name": "Fri"
     },
     {
       "date": "2020-06-13",
-      "value": 11521,
-      "lower_bound": 9447,
-      "upper_bound": 13595,
+      "value": 11206,
+      "lower_bound": 0,
+      "upper_bound": 25568,
+      "lower_95": 0,
+      "upper_95": 33198,
       "day_name": "Sat"
     },
     {
       "date": "2020-06-14",
-      "value": 12008,
-      "lower_bound": 9847,
-      "upper_bound": 14169,
+      "value": 11676,
+      "lower_bound": 0,
+      "upper_bound": 26038,
+      "lower_95": 0,
+      "upper_95": 33668,
       "day_name": "Sun"
     },
     {
       "date": "2020-06-15",
-      "value": 12858,
-      "lower_bound": 10544,
-      "upper_bound": 15172,
+      "value": 12499,
+      "lower_bound": 0,
+      "upper_bound": 26861,
+      "lower_95": 0,
+      "upper_95": 34491,
       "day_name": "Mon"
     },
     {
       "date": "2020-06-16",
-      "value": 12084,
-      "lower_bound": 9909,
-      "upper_bound": 14259,
+      "value": 11742,
+      "lower_bound": 0,
+      "upper_bound": 26104,
+      "lower_95": 0,
+      "upper_95": 33734,
       "day_name": "Tue"
     },
     {
       "date": "2020-06-17",
-      "value": 12147,
-      "lower_bound": 9961,
-      "upper_bound": 14333,
+      "value": 11801,
+      "lower_bound": 0,
+      "upper_bound": 26163,
+      "lower_95": 0,
+      "upper_95": 33793,
       "day_name": "Wed"
     },
     {
       "date": "2020-06-18",
-      "value": 10375,
-      "lower_bound": 8508,
-      "upper_bound": 12242,
+      "value": 10075,
+      "lower_bound": 0,
+      "upper_bound": 24437,
+      "lower_95": 0,
+      "upper_95": 32067,
       "day_name": "Thu"
     },
     {
       "date": "2020-06-19",
-      "value": 11926,
-      "lower_bound": 9779,
-      "upper_bound": 14073,
+      "value": 11578,
+      "lower_bound": 0,
+      "upper_bound": 25940,
+      "lower_95": 0,
+      "upper_95": 33570,
       "day_name": "Fri"
     },
     {
       "date": "2020-06-20",
-      "value": 11653,
-      "lower_bound": 9555,
-      "upper_bound": 13751,
+      "value": 11309,
+      "lower_bound": 0,
+      "upper_bound": 25671,
+      "lower_95": 0,
+      "upper_95": 33301,
       "day_name": "Sat"
     },
     {
       "date": "2020-06-21",
-      "value": 11537,
-      "lower_bound": 9460,
-      "upper_bound": 13614,
+      "value": 11312,
+      "lower_bound": 0,
+      "upper_bound": 25674,
+      "lower_95": 0,
+      "upper_95": 33304,
       "day_name": "Sun"
     },
     {
       "date": "2020-06-22",
-      "value": 11031,
-      "lower_bound": 9045,
-      "upper_bound": 13017,
+      "value": 10811,
+      "lower_bound": 0,
+      "upper_bound": 25173,
+      "lower_95": 0,
+      "upper_95": 32803,
       "day_name": "Mon"
     },
     {
       "date": "2020-06-23",
-      "value": 12221,
-      "lower_bound": 10021,
-      "upper_bound": 14421,
+      "value": 11850,
+      "lower_bound": 0,
+      "upper_bound": 26212,
+      "lower_95": 0,
+      "upper_95": 33842,
       "day_name": "Tue"
     },
     {
       "date": "2020-06-24",
-      "value": 12285,
-      "lower_bound": 10074,
-      "upper_bound": 14496,
+      "value": 11908,
+      "lower_bound": 0,
+      "upper_bound": 26270,
+      "lower_95": 0,
+      "upper_95": 33900,
       "day_name": "Wed"
     },
     {
       "date": "2020-06-25",
-      "value": 10493,
-      "lower_bound": 8604,
-      "upper_bound": 12382,
+      "value": 10167,
+      "lower_bound": 0,
+      "upper_bound": 24529,
+      "lower_95": 0,
+      "upper_95": 32159,
       "day_name": "Thu"
     },
     {
       "date": "2020-06-26",
-      "value": 12061,
-      "lower_bound": 9890,
-      "upper_bound": 14232,
+      "value": 11684,
+      "lower_bound": 0,
+      "upper_bound": 26046,
+      "lower_95": 0,
+      "upper_95": 33676,
       "day_name": "Fri"
     },
     {
       "date": "2020-06-27",
-      "value": 11784,
-      "lower_bound": 9663,
-      "upper_bound": 13905,
+      "value": 11412,
+      "lower_bound": 0,
+      "upper_bound": 25774,
+      "lower_95": 0,
+      "upper_95": 33404,
       "day_name": "Sat"
     },
     {
       "date": "2020-06-28",
-      "value": 13756,
-      "lower_bound": 11280,
-      "upper_bound": 16232,
+      "value": 13317,
+      "lower_bound": 0,
+      "upper_bound": 27679,
+      "lower_95": 0,
+      "upper_95": 35309,
       "day_name": "Sun"
     },
     {
       "date": "2020-06-29",
-      "value": 13151,
-      "lower_bound": 10784,
-      "upper_bound": 15518,
+      "value": 12728,
+      "lower_bound": 0,
+      "upper_bound": 27090,
+      "lower_95": 0,
+      "upper_95": 34720,
       "day_name": "Mon"
     },
     {
       "date": "2020-06-30",
-      "value": 13843,
-      "lower_bound": 11351,
-      "upper_bound": 16335,
+      "value": 13393,
+      "lower_bound": 0,
+      "upper_bound": 27755,
+      "lower_95": 0,
+      "upper_95": 35385,
       "day_name": "Tue"
     }
   ],
@@ -269,12 +387,22 @@
         "2020-04",
         "2020-05"
       ],
-      "forecast": 125945,
+      "forecast": 122566,
+      "forecast_units": 1064,
       "forecast_share": 35.4,
-      "stock_needed": 1094,
       "avg_price": 115.15,
-      "growth": -31.7,
-      "accuracy": 75.7
+      "growth": -33.5,
+      "accuracy": 87.1,
+      "current_stock": null,
+      "stock_source": "NOT_PROVIDED",
+      "lead_time_days": 14,
+      "safety_stock": 1099,
+      "reorder_point": 1596,
+      "suggested_order_qty": 0,
+      "coverage_days": null,
+      "stock_status": null,
+      "risk_level": null,
+      "stock_needed": 1064
     },
     {
       "product": "Vintage Cars",
@@ -295,12 +423,22 @@
         "2020-04",
         "2020-05"
       ],
-      "forecast": 61220,
+      "forecast": 59577,
+      "forecast_units": 661,
       "forecast_share": 17.2,
-      "stock_needed": 680,
       "avg_price": 90.07,
-      "growth": -16.2,
-      "accuracy": 78.8
+      "growth": -18.5,
+      "accuracy": 90.1,
+      "current_stock": null,
+      "stock_source": "NOT_PROVIDED",
+      "lead_time_days": 14,
+      "safety_stock": 639,
+      "reorder_point": 947,
+      "suggested_order_qty": 0,
+      "coverage_days": null,
+      "stock_status": null,
+      "risk_level": null,
+      "stock_needed": 661
     },
     {
       "product": "Planes",
@@ -321,12 +459,22 @@
         "2020-04",
         "2020-05"
       ],
-      "forecast": 51301,
+      "forecast": 49924,
+      "forecast_units": 548,
       "forecast_share": 14.4,
-      "stock_needed": 563,
       "avg_price": 91.14,
-      "growth": 49.7,
-      "accuracy": 76.8
+      "growth": 45.7,
+      "accuracy": 90.3,
+      "current_stock": null,
+      "stock_source": "NOT_PROVIDED",
+      "lead_time_days": 14,
+      "safety_stock": 710,
+      "reorder_point": 966,
+      "suggested_order_qty": 0,
+      "coverage_days": null,
+      "stock_status": null,
+      "risk_level": null,
+      "stock_needed": 548
     },
     {
       "product": "Motorcycles",
@@ -347,12 +495,22 @@
         "2020-04",
         "2020-05"
       ],
-      "forecast": 47825,
+      "forecast": 46542,
+      "forecast_units": 467,
       "forecast_share": 13.4,
-      "stock_needed": 480,
       "avg_price": 99.59,
-      "growth": 21.4,
-      "accuracy": 75.2
+      "growth": 18.2,
+      "accuracy": 86.9,
+      "current_stock": null,
+      "stock_source": "NOT_PROVIDED",
+      "lead_time_days": 14,
+      "safety_stock": 680,
+      "reorder_point": 898,
+      "suggested_order_qty": 0,
+      "coverage_days": null,
+      "stock_status": null,
+      "risk_level": null,
+      "stock_needed": 467
     },
     {
       "product": "Trucks and Buses",
@@ -373,12 +531,22 @@
         "2020-04",
         "2020-05"
       ],
-      "forecast": 33915,
+      "forecast": 33005,
+      "forecast_units": 314,
       "forecast_share": 9.5,
-      "stock_needed": 323,
       "avg_price": 105.07,
-      "growth": -62.2,
-      "accuracy": 73.0
+      "growth": -63.2,
+      "accuracy": 88.7,
+      "current_stock": null,
+      "stock_source": "NOT_PROVIDED",
+      "lead_time_days": 14,
+      "safety_stock": 693,
+      "reorder_point": 840,
+      "suggested_order_qty": 0,
+      "coverage_days": null,
+      "stock_status": null,
+      "risk_level": null,
+      "stock_needed": 314
     },
     {
       "product": "Ships",
@@ -399,12 +567,22 @@
         "2020-04",
         "2020-05"
       ],
-      "forecast": 27893,
+      "forecast": 27145,
+      "forecast_units": 310,
       "forecast_share": 7.8,
-      "stock_needed": 318,
       "avg_price": 87.63,
-      "growth": 4.3,
-      "accuracy": 76.2
+      "growth": 1.5,
+      "accuracy": 90.8,
+      "current_stock": null,
+      "stock_source": "NOT_PROVIDED",
+      "lead_time_days": 14,
+      "safety_stock": 593,
+      "reorder_point": 738,
+      "suggested_order_qty": 0,
+      "coverage_days": null,
+      "stock_status": null,
+      "risk_level": null,
+      "stock_needed": 310
     },
     {
       "product": "Trains",
@@ -425,22 +603,144 @@
         "2020-04",
         "2020-05"
       ],
-      "forecast": 7543,
+      "forecast": 7340,
+      "forecast_units": 88,
       "forecast_share": 2.1,
-      "stock_needed": 90,
       "avg_price": 83.42,
-      "growth": -26.5,
-      "accuracy": 75.7
+      "growth": -28.4,
+      "accuracy": 87.0,
+      "current_stock": null,
+      "stock_source": "NOT_PROVIDED",
+      "lead_time_days": 14,
+      "safety_stock": 191,
+      "reorder_point": 232,
+      "suggested_order_qty": 0,
+      "coverage_days": null,
+      "stock_status": null,
+      "risk_level": null,
+      "stock_needed": 88
     }
   ],
+  "inventory_summary": {
+    "out_of_stock_count": 0,
+    "critical_count": 0,
+    "reorder_count": 0,
+    "optimal_count": 0,
+    "overstock_count": 0,
+    "total_suggested_orders": 0,
+    "total_safety_stock": 0
+  },
+  "anomalies": [
+    {
+      "date": "2019-11-24",
+      "actual": 137645,
+      "expected": 41707,
+      "type": "SPIKE",
+      "severity": "HIGH",
+      "deviation_pct": 230.0,
+      "reason": "Demand spike +230.0% above expected 7-day baseline"
+    },
+    {
+      "date": "2019-12-10",
+      "actual": 93588,
+      "expected": 30214,
+      "type": "SPIKE",
+      "severity": "HIGH",
+      "deviation_pct": 209.7,
+      "reason": "Demand spike +209.7% above expected 7-day baseline"
+    },
+    {
+      "date": "2018-12-02",
+      "actual": 109432,
+      "expected": 38662,
+      "type": "SPIKE",
+      "severity": "HIGH",
+      "deviation_pct": 183.0,
+      "reason": "Demand spike +183.0% above expected 7-day baseline"
+    },
+    {
+      "date": "2018-11-12",
+      "actual": 111157,
+      "expected": 40062,
+      "type": "SPIKE",
+      "severity": "HIGH",
+      "deviation_pct": 177.5,
+      "reason": "Demand spike +177.5% above expected 7-day baseline"
+    },
+    {
+      "date": "2018-11-14",
+      "actual": 131236,
+      "expected": 48874,
+      "type": "SPIKE",
+      "severity": "HIGH",
+      "deviation_pct": 168.5,
+      "reason": "Demand spike +168.5% above expected 7-day baseline"
+    },
+    {
+      "date": "2019-09-08",
+      "actual": 93717,
+      "expected": 34994,
+      "type": "SPIKE",
+      "severity": "HIGH",
+      "deviation_pct": 167.8,
+      "reason": "Demand spike +167.8% above expected 7-day baseline"
+    },
+    {
+      "date": "2019-11-05",
+      "actual": 106241,
+      "expected": 46957,
+      "type": "SPIKE",
+      "severity": "HIGH",
+      "deviation_pct": 126.3,
+      "reason": "Demand spike +126.3% above expected 7-day baseline"
+    },
+    {
+      "date": "2018-11-06",
+      "actual": 114457,
+      "expected": 56730,
+      "type": "SPIKE",
+      "severity": "HIGH",
+      "deviation_pct": 101.8,
+      "reason": "Demand spike +101.8% above expected 7-day baseline"
+    }
+  ],
+  "business_intelligence": {
+    "trajectory_status": "DECELERATING",
+    "mom_growth_pct": -24.4,
+    "pareto_core_products": [
+      "Classic Cars",
+      "Vintage Cars",
+      "Planes",
+      "Motorcycles",
+      "Trucks and Buses"
+    ],
+    "busiest_day": "Wednesday",
+    "top_volume_product": "Classic Cars",
+    "top_growth_product": "Planes",
+    "bullet_insights": [
+      "Projected next-month revenue trajectory is decelerating at -24.4% MoM.",
+      "Top product driver 'Classic Cars' accounts for 35.4% of next month's forecast.",
+      "Pareto analysis indicates 5 of 7 products generate 80% of total commercial revenue.",
+      "Wednesday exhibits the highest customer order concentration across historical sales.",
+      "Statistical anomaly engine detected 8 irregular demand events requiring operational review."
+    ]
+  },
+  "data_health": {
+    "initial_rows": 2747,
+    "clean_rows": 2747,
+    "duplicates_removed": 0,
+    "invalid_dates_dropped": 0,
+    "date_min": "2018-01-06",
+    "date_max": "2020-05-31"
+  },
   "metrics": {
+    "model_type": "Ridge Regression",
     "top_product": "Classic Cars",
     "top_growth_product": "Planes",
-    "total_stock_needed": 3548,
+    "total_stock_needed": 4605,
     "avg_order_value": 3553.05,
-    "peak_month": "2019-11",
-    "peak_month_value": 1058699,
-    "date_range": "Jan 2018 \u2013 May 2020",
-    "model_type": "Ensemble (Ridge Regression + Gradient Boosted Regressor)"
+    "date_range": "2018-01-06 to 2020-05-31",
+    "anomalies_count": 8,
+    "critical_stockout_risk_count": 0
   }
 }

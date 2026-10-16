@@ -5,16 +5,20 @@ import sampleData from "../assets/sampleForecast.json";
 const API = "http://127.0.0.1:5000";
 
 const UploadData = () => {
-  const [file, setFile]             = useState(null);
-  const [step, setStep]             = useState(1); // 1=select, 2=uploaded, 3=done
-  const [uploading, setUploading]   = useState(false);
+  const [file, setFile] = useState(null);
+  const [step, setStep] = useState(1); // 1=select, 2=uploaded & review, 3=done
+  const [uploading, setUploading] = useState(false);
   const [forecasting, setForecasting] = useState(false);
-  const [filePath, setFilePath]     = useState(null);
-  const [fileInfo, setFileInfo]     = useState(null);
-  const [error, setError]           = useState("");
-  const [dragOver, setDragOver]     = useState(false);
-  const fileRef                     = useRef();
-  const navigate                    = useNavigate();
+  const [filePath, setFilePath] = useState(null);
+  const [fileInfo, setFileInfo] = useState(null);
+  const [error, setError] = useState("");
+  const [dragOver, setDragOver] = useState(false);
+  const [leadTimeDays, setLeadTimeDays] = useState(14);
+  const [serviceLevel, setServiceLevel] = useState(95);
+  const [showPreview, setShowPreview] = useState(false);
+
+  const fileRef = useRef();
+  const navigate = useNavigate();
 
   const handleFile = (f) => {
     if (!f) return;
@@ -39,7 +43,7 @@ const UploadData = () => {
       const formData = new FormData();
       formData.append("file", file);
 
-      const res  = await fetch(`${API}/api/upload`, { method: "POST", body: formData });
+      const res = await fetch(`${API}/api/upload`, { method: "POST", body: formData });
       const data = await res.json();
 
       if (!res.ok) {
@@ -52,22 +56,26 @@ const UploadData = () => {
       setFileInfo(data);
       setStep(2);
     } catch {
-      setError("Cannot reach server. Make sure Flask is running.");
+      setError("Cannot reach backend server. Make sure Flask is active on port 5000.");
     }
     setUploading(false);
   };
 
-  // ── Step 2: Run forecast ─────────────────────────────
+  // ── Step 2: Run forecast with inventory parameters ────
   const handleForecast = async () => {
     if (!filePath) return;
     setForecasting(true);
     setError("");
 
     try {
-      const res  = await fetch(`${API}/api/forecast`, {
+      const res = await fetch(`${API}/api/forecast`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ file_path: filePath }),
+        body: JSON.stringify({
+          file_path: filePath,
+          lead_time_days: Number(leadTimeDays),
+          service_level: Number(serviceLevel),
+        }),
       });
       const data = await res.json();
 
@@ -77,18 +85,20 @@ const UploadData = () => {
         return;
       }
 
-      // Save results to localStorage → Dashboard reads this
       localStorage.setItem("forecastResults", JSON.stringify(data));
       setStep(3);
     } catch {
-      setError("Cannot reach server. Make sure Flask is running.");
+      setError("Forecast failed or connection timed out. Ensure Flask backend is running.");
     }
     setForecasting(false);
   };
 
   const reset = () => {
-    setFile(null); setStep(1); setFilePath(null);
-    setFileInfo(null); setError("");
+    setFile(null);
+    setStep(1);
+    setFilePath(null);
+    setFileInfo(null);
+    setError("");
   };
 
   return (
@@ -96,15 +106,11 @@ const UploadData = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600;700&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
         .up { min-height: 100vh; background: #f4f6fb; font-family: 'DM Sans', sans-serif; padding: 90px 32px 48px; }
-
         .up-title { font-family: 'Space Mono', monospace; font-size: 22px; font-weight: 700; color: #0f172a; margin-bottom: 6px; }
         .up-title .b { color: #2563eb; } .up-title .v { color: #7c3aed; }
         .up-sub { font-size: 13.5px; color: #64748b; margin-bottom: 28px; }
-
-        /* Steps */
-        .up-steps { display: flex; align-items: center; gap: 0; margin-bottom: 32px; }
+        .up-steps { display: flex; align-items: center; gap: 0; margin-bottom: 32px; max-width: 680px; margin-left: auto; margin-right: auto; }
         .up-step-item { display: flex; align-items: center; gap: 8px; }
         .up-step-num {
           width: 30px; height: 30px; border-radius: 50%;
@@ -121,38 +127,32 @@ const UploadData = () => {
         .up-step-lbl.idle   { color: #94a3b8; }
         .up-step-line { flex: 1; height: 2px; background: #e2e8f4; margin: 0 12px; min-width: 48px; }
         .up-step-line.done { background: linear-gradient(90deg, #2563eb, #7c3aed); }
-
-        /* Card */
         .up-card {
-          max-width: 580px; margin: 0 auto;
+          max-width: 660px; margin: 0 auto;
           background: #fff; border: 1px solid #e2e8f4;
           border-radius: 16px; padding: 36px;
           box-shadow: 0 4px 24px rgba(15,23,42,.07);
         }
-
-        /* Dropzone */
         .up-drop {
-          border: 2px dashed #e2e8f4; border-radius: 12px;
-          padding: 52px 24px; text-align: center; cursor: pointer;
+          border: 2px dashed #cbd5e1; border-radius: 12px;
+          padding: 48px 24px; text-align: center; cursor: pointer;
           background: #fafbff; transition: all 0.2s;
         }
         .up-drop:hover, .up-drop.over { border-color: #2563eb; background: rgba(37,99,235,.04); }
         .up-drop-icon {
-          width: 60px; height: 60px; border-radius: 16px; margin: 0 auto 16px;
+          width: 58px; height: 58px; border-radius: 16px; margin: 0 auto 16px;
           background: linear-gradient(135deg, rgba(37,99,235,.1), rgba(124,58,237,.1));
           border: 1px solid rgba(37,99,235,.15);
           display: flex; align-items: center; justify-content: center;
         }
         .up-drop-icon svg { width: 26px; height: 26px; color: #2563eb; }
-        .up-drop-title { font-size: 16px; font-weight: 600; color: #0f172a; margin-bottom: 6px; }
+        .up-drop-title { font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 6px; }
         .up-drop-sub { font-size: 13px; color: #94a3b8; margin-bottom: 18px; }
         .up-browse {
           padding: 10px 24px; background: linear-gradient(135deg, #2563eb, #7c3aed);
           color: #fff; border: none; border-radius: 8px; font-size: 13.5px;
           font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif;
         }
-
-        /* File info */
         .up-file-row {
           display: flex; align-items: center; gap: 14px; padding: 14px;
           background: #f8fafc; border: 1.5px solid #e2e8f4; border-radius: 10px; margin-bottom: 20px;
@@ -167,109 +167,91 @@ const UploadData = () => {
         .up-file-size { font-size: 12px; color: #94a3b8; margin-top: 2px; }
         .up-file-rm { margin-left: auto; background: none; border: none; cursor: pointer; color: #94a3b8; }
         .up-file-rm:hover { color: #dc2626; }
-        .up-file-rm svg { width: 18px; height: 18px; }
-
-        /* Info box */
-        .up-info {
-          padding: 12px 16px; border-radius: 8px; font-size: 13px;
-          display: flex; align-items: center; gap: 10px; margin-bottom: 18px;
-        }
-        .up-info.green { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; }
-        .up-info svg { width: 16px; height: 16px; flex-shrink: 0; }
-
-        /* Error */
         .up-err { padding: 12px 16px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; font-size: 13px; color: #dc2626; margin-bottom: 18px; }
-
-        /* Buttons */
         .up-btn {
           width: 100%; padding: 14px; border: none; border-radius: 10px; cursor: pointer;
-          font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700;
+          font-family: 'DM Sans', sans-serif; font-size: 14.5px; font-weight: 700;
           display: flex; align-items: center; justify-content: center; gap: 10px;
           transition: all 0.2s;
         }
         .up-btn-blue   { background: linear-gradient(135deg,#2563eb,#7c3aed); color:#fff; box-shadow:0 4px 14px rgba(37,99,235,.3); }
         .up-btn-violet { background: linear-gradient(135deg,#7c3aed,#2563eb); color:#fff; box-shadow:0 4px 14px rgba(124,58,237,.3); }
         .up-btn-green  { background: linear-gradient(135deg,#22c55e,#16a34a); color:#fff; box-shadow:0 4px 14px rgba(22,163,74,.3); }
-        .up-btn:hover:not(:disabled) { opacity:.9; transform:translateY(-1px); }
+        .up-btn:hover:not(:disabled) { opacity:.92; transform:translateY(-1px); }
         .up-btn:disabled { opacity:.6; cursor:not-allowed; }
-        .up-btn svg { width: 18px; height: 18px; }
-
-        /* Spinner */
         .spin { width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite; }
         @keyframes spin{to{transform:rotate(360deg)}}
-
-        /* Success */
-        .up-success { text-align: center; padding: 16px 0; }
-        .up-success-icon {
-          width: 68px; height: 68px; border-radius: 50%; margin: 0 auto 16px;
-          background: linear-gradient(135deg,#22c55e,#16a34a);
-          display: flex; align-items: center; justify-content: center;
-          box-shadow: 0 4px 20px rgba(22,163,74,.3);
-          animation: popIn .4s ease;
-        }
-        @keyframes popIn{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
-        .up-success-icon svg { width: 30px; height: 30px; color: #fff; }
-        .up-success-title { font-family:'Space Mono',monospace; font-size:18px; font-weight:700; color:#0f172a; margin-bottom:6px; }
-        .up-success-sub { font-size:13.5px; color:#64748b; margin-bottom:24px; }
-
-        /* Stats grid */
-        .up-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .up-stat { background: #f8fafc; border: 1px solid #e2e8f4; border-radius: 8px; padding: 12px; text-align: center; }
-        .up-stat-val { font-family:'Space Mono',monospace; font-size:18px; font-weight:700; color:#2563eb; }
-        .up-stat-lbl { font-size:11px; color:#94a3b8; margin-top:3px; text-transform:uppercase; letter-spacing:.05em; }
+        .up-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-family: 'Space Mono', monospace; font-weight: 700; }
+        .up-badge-b { background: #eff6ff; color: #2563eb; }
+        .up-badge-g { background: #f0fdf4; color: #16a34a; }
+        .up-preview-table { width: 100%; border-collapse: collapse; font-size: 11.5px; margin-top: 10px; }
+        .up-preview-table th { background: #f1f5f9; padding: 8px 10px; text-align: left; color: #475569; font-weight: 700; border: 1px solid #e2e8f0; }
+        .up-preview-table td { padding: 6px 10px; border: 1px solid #e2e8f0; color: #334155; }
       `}</style>
 
       <div className="up">
-        <h1 className="up-title"><span className="b">Upload</span> <span className="v">& Forecast</span></h1>
-        <p className="up-sub">Upload your sales CSV → Run ML forecast → Results appear on Dashboard</p>
+        <h1 className="up-title">
+          <span className="b">Upload</span> <span className="v">& Validate Dataset</span>
+        </h1>
+        <p className="up-sub">
+          Upload commercial sales CSV/Excel files → inspect data health → configure inventory parameters → run multi-model forecast.
+        </p>
 
         {/* Steps */}
         <div className="up-steps">
           {[
-            { n:"1", lbl:"Upload File",   s: step >= 2 ? "done" : "active" },
-            { n:"2", lbl:"Run Forecast",  s: step >= 3 ? "done" : step === 2 ? "active" : "idle" },
-            { n:"3", lbl:"View Dashboard",s: step === 3 ? "active" : "idle" },
+            { n: "1", lbl: "Upload File", s: step >= 2 ? "done" : "active" },
+            { n: "2", lbl: "Review & Configure", s: step >= 3 ? "done" : step === 2 ? "active" : "idle" },
+            { n: "3", lbl: "Forecast Ready", s: step === 3 ? "active" : "idle" },
           ].map((item, i, arr) => (
-            <div key={i} style={{display:"flex",alignItems:"center",flex: i<arr.length-1?1:"none"}}>
+            <div key={i} style={{ display: "flex", alignItems: "center", flex: i < arr.length - 1 ? 1 : "none" }}>
               <div className="up-step-item">
-                <div className={`up-step-num ${item.s}`}>{item.s==="done"?"✓":item.n}</div>
+                <div className={`up-step-num ${item.s}`}>{item.s === "done" ? "✓" : item.n}</div>
                 <span className={`up-step-lbl ${item.s}`}>{item.lbl}</span>
               </div>
-              {i < arr.length-1 && <div className={`up-step-line ${item.s==="done"?"done":""}`}/>}
+              {i < arr.length - 1 && <div className={`up-step-line ${item.s === "done" ? "done" : ""}`} />}
             </div>
           ))}
         </div>
 
         <div className="up-card">
-
           {error && <div className="up-err">⚠ {error}</div>}
 
-          {/* STEP 1 — Select & Upload file */}
+          {/* STEP 1 — Select & Upload */}
           {step === 1 && (
             <>
               {!file ? (
                 <div
-                  className={`up-drop ${dragOver?"over":""}`}
-                  onDragOver={e=>{e.preventDefault();setDragOver(true)}}
-                  onDragLeave={()=>setDragOver(false)}
+                  className={`up-drop ${dragOver ? "over" : ""}`}
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    setDragOver(true);
+                  }}
+                  onDragLeave={() => setDragOver(false)}
                   onDrop={onDrop}
-                  onClick={()=>fileRef.current.click()}
+                  onClick={() => fileRef.current.click()}
                 >
-                  <input ref={fileRef} type="file" accept=".csv,.xlsx,.xls"
-                    style={{display:"none"}} onChange={e=>handleFile(e.target.files[0])}/>
+                  <input
+                    ref={fileRef}
+                    type="file"
+                    accept=".csv,.xlsx,.xls"
+                    style={{ display: "none" }}
+                    onChange={(e) => handleFile(e.target.files[0])}
+                  />
                   <div className="up-drop-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                      <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="17 8 12 3 7 8" />
+                      <line x1="12" y1="3" x2="12" y2="15" />
                     </svg>
                   </div>
-                  <div className="up-drop-title">Drop your CSV file here</div>
-                  <div className="up-drop-sub">or click to browse — CSV, XLSX supported</div>
-                  <button className="up-browse">Browse File</button>
+                  <div className="up-drop-title">Drop your Sales CSV or Excel file here</div>
+                  <div className="up-drop-sub">Supported formats: .csv, .xlsx, .xls (up to 20MB)</div>
+                  <button className="up-browse">Browse Files</button>
 
-                  <div style={{ marginTop: "18px", paddingTop: "14px", borderTop: "1px dashed #e2e8f0" }}>
-                    <span style={{ fontSize: "11.5px", color: "#64748b", display: "block", marginBottom: "8px" }}>
-                      Don't have a dataset ready?
+                  <div style={{ marginTop: "22px", paddingTop: "16px", borderTop: "1px dashed #e2e8f0" }}>
+                    <span style={{ fontSize: "12px", color: "#64748b", display: "block", marginBottom: "8px" }}>
+                      Want to test immediately without uploading?
                     </span>
                     <button
                       type="button"
@@ -279,17 +261,17 @@ const UploadData = () => {
                         setStep(3);
                       }}
                       style={{
-                        padding: "7px 16px",
+                        padding: "8px 18px",
                         background: "#fff",
                         border: "1px solid #cbd5e1",
-                        borderRadius: "7px",
-                        fontSize: "12px",
+                        borderRadius: "8px",
+                        fontSize: "12.5px",
                         fontWeight: "600",
                         color: "#2563eb",
                         cursor: "pointer",
                       }}
                     >
-                      ✨ Quick Test with Sample Dataset
+                      ✨ Quick Demo with Verified Dataset
                     </button>
                   </div>
                 </div>
@@ -298,83 +280,205 @@ const UploadData = () => {
                   <div className="up-file-row">
                     <div className="up-file-ico">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                        <polyline points="14 2 14 8 20 8"/>
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
                       </svg>
                     </div>
                     <div>
                       <div className="up-file-name">{file.name}</div>
-                      <div className="up-file-size">{(file.size/1024).toFixed(1)} KB</div>
+                      <div className="up-file-size">{(file.size / 1024).toFixed(1)} KB</div>
                     </div>
                     <button className="up-file-rm" onClick={reset}>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
                       </svg>
                     </button>
                   </div>
+
                   <button className="up-btn up-btn-blue" onClick={handleUpload} disabled={uploading}>
-                    {uploading ? <span className="spin"/> : (
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                        <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
-                      </svg>
-                    )}
-                    {uploading ? "Uploading..." : "Upload File"}
+                    {uploading ? <span className="spin" /> : "Upload & Validate Schema"}
                   </button>
                 </>
               )}
             </>
           )}
 
-          {/* STEP 2 — Run Forecast */}
-          {step === 2 && (
+          {/* STEP 2 — Review & Configure */}
+          {step === 2 && fileInfo && (
             <>
-              <div className="up-info green">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12"/>
-                </svg>
-                File uploaded! {fileInfo?.rows?.toLocaleString()} rows detected. Now run the ML forecast.
+              <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "12px", padding: "16px", marginBottom: "20px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+                  <span style={{ fontSize: "13px", fontWeight: "700", color: "#0f172a" }}>Data Validation Audit</span>
+                  <span className="up-badge up-badge-g">✓ Clean: {fileInfo.rows?.toLocaleString()} rows</span>
+                </div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", fontSize: "12px", color: "#475569" }}>
+                  <div>
+                    <span style={{ color: "#94a3b8" }}>Date Column: </span>
+                    <strong>{fileInfo.mapping?.date_column || "Not Found"}</strong>
+                  </div>
+                  <div>
+                    <span style={{ color: "#94a3b8" }}>Revenue Column: </span>
+                    <strong>{fileInfo.mapping?.revenue_column || "Not Found"}</strong>
+                  </div>
+                  <div>
+                    <span style={{ color: "#94a3b8" }}>Product Column: </span>
+                    <strong>{fileInfo.mapping?.product_column || "Not Detected"}</strong>
+                  </div>
+                  <div>
+                    <span style={{ color: "#94a3b8" }}>Quantity Column: </span>
+                    <strong>{fileInfo.mapping?.quantity_column || "Default 1 per line"}</strong>
+                  </div>
+                </div>
+
+                {fileInfo.duplicates_removed > 0 && (
+                  <div style={{ marginTop: "8px", fontSize: "11px", color: "#d97706" }}>
+                    ℹ️ Removed {fileInfo.duplicates_removed} duplicate records to ensure modeling integrity.
+                  </div>
+                )}
               </div>
 
-              <div className="up-stats">
-                <div className="up-stat">
-                  <div className="up-stat-val">{fileInfo?.rows?.toLocaleString()}</div>
-                  <div className="up-stat-lbl">Total Rows</div>
+              {/* Inventory Parameter Settings */}
+              <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: "12px", padding: "18px", marginBottom: "20px" }}>
+                <div style={{ fontSize: "13px", fontWeight: "700", color: "#0f172a", marginBottom: "12px" }}>
+                  ⚙️ Supply Chain & Inventory Parameters
                 </div>
-                <div className="up-stat">
-                  <div className="up-stat-val">{fileInfo?.columns?.length}</div>
-                  <div className="up-stat-lbl">Columns</div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px" }}>
+                  <div>
+                    <label style={{ display: "block", fontSize: "12px", fontWeight: "600", color: "#475569", marginBottom: "4px" }}>
+                      Supplier Lead Time (Days)
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="90"
+                      value={leadTimeDays}
+                      onChange={(e) => setLeadTimeDays(e.target.value)}
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid #cbd5e1",
+                        borderRadius: "8px",
+                        fontSize: "13px",
+                        fontFamily: "'Space Mono', monospace",
+                        outline: "none",
+                      }}
+                    />
+                    <span style={{ fontSize: "10.5px", color: "#94a3b8" }}>Transit duration from reorder to shelf</span>
+                  </div>
+
+                  <div>
+                    <label style={{ display: "block", fontSize: "12px", fontWeight: "600", color: "#475569", marginBottom: "4px" }}>
+                      Target Service Level (%)
+                    </label>
+                    <select
+                      value={serviceLevel}
+                      onChange={(e) => setServiceLevel(e.target.value)}
+                      style={{
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "1px solid #cbd5e1",
+                        borderRadius: "8px",
+                        fontSize: "13px",
+                        fontFamily: "'Space Mono', monospace",
+                        outline: "none",
+                        background: "#fff",
+                      }}
+                    >
+                      <option value="90">90% (Z = 1.28 - Low Buffer)</option>
+                      <option value="95">95% (Z = 1.65 - Standard)</option>
+                      <option value="98">98% (Z = 2.05 - High Availability)</option>
+                      <option value="99">99% (Z = 2.33 - Critical Buffer)</option>
+                    </select>
+                    <span style={{ fontSize: "10.5px", color: "#94a3b8" }}>Determines safety stock buffer size</span>
+                  </div>
                 </div>
               </div>
+
+              {/* Data Preview Toggle */}
+              {fileInfo.preview && fileInfo.preview.length > 0 && (
+                <div style={{ marginBottom: "18px" }}>
+                  <button
+                    type="button"
+                    onClick={() => setShowPreview(!showPreview)}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      color: "#2563eb",
+                      fontSize: "12px",
+                      fontWeight: "600",
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "4px",
+                    }}
+                  >
+                    {showPreview ? "▼ Hide Data Sample Preview" : "▶ Preview First 5 Rows of Uploaded File"}
+                  </button>
+
+                  {showPreview && (
+                    <div style={{ overflowX: "auto", marginTop: "10px" }}>
+                      <table className="up-preview-table">
+                        <thead>
+                          <tr>
+                            {Object.keys(fileInfo.preview[0]).slice(0, 6).map((col, idx) => (
+                              <th key={idx}>{col}</th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {fileInfo.preview.map((row, rIdx) => (
+                            <tr key={rIdx}>
+                              {Object.values(row).slice(0, 6).map((val, cIdx) => (
+                                <td key={cIdx}>{String(val)}</td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              )}
 
               <button className="up-btn up-btn-violet" onClick={handleForecast} disabled={forecasting}>
-                {forecasting ? <span className="spin"/> : (
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                  </svg>
-                )}
-                {forecasting ? "Running ML Model..." : "🚀 Run Forecast"}
+                {forecasting ? <span className="spin" /> : "🚀 Run Multi-Model Forecast & Optimization"}
               </button>
             </>
           )}
 
-          {/* STEP 3 — Done, go to dashboard */}
+          {/* STEP 3 — Complete */}
           {step === 3 && (
-            <div className="up-success">
-              <div className="up-success-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12"/>
+            <div style={{ textAlign: "center", padding: "16px 0" }}>
+              <div
+                style={{
+                  width: "64px",
+                  height: "64px",
+                  borderRadius: "50%",
+                  margin: "0 auto 16px",
+                  background: "linear-gradient(135deg, #22c55e, #16a34a)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: "0 4px 20px rgba(22, 163, 74, .3)",
+                }}
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="30" height="30">
+                  <polyline points="20 6 9 17 4 12" />
                 </svg>
               </div>
-              <div className="up-success-title">Forecast Complete!</div>
-              <div className="up-success-sub">ML model ran successfully. Your results are ready on the Dashboard.</div>
-              <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+              <h2 style={{ fontFamily: "'Space Mono', monospace", fontSize: "19px", color: "#0f172a", marginBottom: "6px" }}>
+                Forecast & Inventory Model Ready!
+              </h2>
+              <p style={{ fontSize: "13.5px", color: "#64748b", marginBottom: "24px" }}>
+                Multi-model backtesting complete. Review your selected model, charts, and inventory recommendations.
+              </p>
+
+              <div style={{ display: "flex", gap: "12px", justifyContent: "center" }}>
                 <button className="up-btn up-btn-green" onClick={() => navigate("/")} style={{ flex: 1 }}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-                    <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
-                  </svg>
-                  Dashboard
+                  📊 Go to Dashboard
                 </button>
                 <button
                   className="up-btn"
@@ -387,12 +491,11 @@ const UploadData = () => {
                     boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
                   }}
                 >
-                  📑 View Reports
+                  📑 View Detailed Reports
                 </button>
               </div>
             </div>
           )}
-
         </div>
       </div>
     </>

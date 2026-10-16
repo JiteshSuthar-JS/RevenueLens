@@ -7,10 +7,10 @@ import os
 
 SECRET_KEY      = "revenuelens_secret"
 
-MYSQL_HOST      = "localhost"
-MYSQL_USER      = "root"
-MYSQL_PASSWORD  = "add your password here"
-MYSQL_DB        = "revenuelens"
+MYSQL_HOST      = os.getenv("MYSQL_HOST", "localhost")
+MYSQL_USER      = os.getenv("MYSQL_USER", "root")
+MYSQL_PASSWORD  = os.getenv("MYSQL_PASSWORD", "root@123")
+MYSQL_DB        = os.getenv("MYSQL_DB", "revenuelens")
 
 BASE_DIR        = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_FOLDER   = os.path.join(BASE_DIR, "uploads")

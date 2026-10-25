@@ -1,186 +1,228 @@
-# RevenueLens — Enterprise Sales Forecasting & Inventory Optimization Platform
+<div align="center">
 
-RevenueLens is a full-stack, production-grade business intelligence and supply chain forecasting platform built with **React + Vite**, **Flask (Python)**, and **MySQL**. It transforms raw transaction records (CSV / Excel) into highly accurate chronological revenue forecasts, multi-model evaluation scorecards, statistical anomaly alerts, and automated inventory replenishment recommendations.
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0F172A,50:2563EB,100:06B6D4&height=200&section=header&text=RevenueLens&fontSize=60&fontColor=ffffff&fontAlignY=38&desc=Predict%20your%20sales.%20Never%20run%20out%20of%20stock.&descSize=20&descAlignY=60" alt="RevenueLens" width="100%"/>
+
+<img src="https://img.shields.io/badge/React-Vite-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React"/>
+<img src="https://img.shields.io/badge/Flask-Python%203.10+-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask"/>
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL"/>
+<img src="https://img.shields.io/badge/tests-10%20passing-brightgreen?style=for-the-badge" alt="tests"/>
+
+</div>
 
 ---
 
-## 1. System Architecture
+## 🤔 What is RevenueLens?
 
+Upload your sales file (CSV or Excel). RevenueLens will:
+
+- 📈 **Forecast** your sales for the next 30 days and 3 months
+- 📦 **Tell you when and how much to reorder**
+- 🚨 **Flag unusual sales days**
+- 💡 **Show insights**: top products, best weekdays, What-If scenarios
+
+<div align="center">
+<img src="Dashboard.png" width="95%" alt="RevenueLens Dashboard"/>
+<br/><sub><b>Dashboard:</b> sales KPIs, winning model, and actual vs forecast chart</sub>
+</div>
+
+---
+
+## ✨ Features
+
+| Feature | What it does |
+|---|---|
+| 🔮 **Forecast** | 3-month and 30-day forecast with a high/low safe range |
+| 🏁 **6 models compete** | The best one for your data is chosen automatically |
+| 📦 **Stock planning** | Safety stock, reorder point, order quantity, risk level |
+| 🚨 **Anomaly alerts** | Spikes and dips with HIGH / MEDIUM / LOW level |
+| 🏆 **80/20 analysis** | The few products that bring most of your money |
+| 📅 **Weekday pattern** | Which days sell the most |
+| 🎛 **What-If tool** | Change demand, delivery time and service level, see results at once |
+| 💾 **Export** | CSV, JSON and PDF |
+
+---
+
+## 🏗 Architecture
+
+```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryTextColor':'#000000','textColor':'#000000','lineColor':'#333333','primaryColor':'#DBEAFE','primaryBorderColor':'#2563EB','clusterBkg':'#F8FAFC'}}}%%
+flowchart LR
+    U([👤 User]) --> FE
+    subgraph FE["Frontend: React + Vite"]
+        P1[Login]
+        P2[Upload]
+        P3[Dashboard]
+        P4[Reports]
+    end
+    subgraph BE["Backend: Flask"]
+        A1[app.py<br/>routes]
+        A2[auth.py<br/>JWT login]
+        A3[upload.py<br/>read + clean]
+        A4[model.py<br/>forecast + stock + BI]
+    end
+    DB[(MySQL<br/>users)]
+    FS[(uploads/<br/>files)]
+    FE --> A1
+    A1 --> A2 --> DB
+    A1 --> A3 --> FS
+    A1 --> A4
+
+    style FE fill:#DBEAFE,stroke:#2563EB,color:#000000
+    style BE fill:#DCFCE7,stroke:#16A34A,color:#000000
+    style P1 fill:#FFFFFF,stroke:#2563EB,color:#000000
+    style P2 fill:#FFFFFF,stroke:#2563EB,color:#000000
+    style P3 fill:#FFFFFF,stroke:#2563EB,color:#000000
+    style P4 fill:#FFFFFF,stroke:#2563EB,color:#000000
+    style A1 fill:#FFFFFF,stroke:#16A34A,color:#000000
+    style A2 fill:#FFFFFF,stroke:#16A34A,color:#000000
+    style A3 fill:#FFFFFF,stroke:#16A34A,color:#000000
+    style A4 fill:#FFFFFF,stroke:#16A34A,color:#000000
+    style DB fill:#FEF3C7,stroke:#D97706,color:#000000
+    style FS fill:#FEF3C7,stroke:#D97706,color:#000000
+    style U fill:#FFFFFF,stroke:#333333,color:#000000
 ```
+
+```text
 RevenueLens/
-├── backend/
-│   ├── app.py              # Flask server routes (/api/upload, /api/forecast, /api/health, auth)
-│   ├── auth.py             # User authentication with JWT & MySQL
-│   ├── config.py           # Environment variables & database credentials
-│   ├── model.py            # Core ML Engine, Backtesting, Inventory & BI calculations
-│   ├── upload.py           # Data ingestion, schema detection & cleaning audit
-│   ├── tests/              # Automated unit and integration test suite
-│   │   ├── test_pipeline.py    # Preprocessing, backtesting, ROP, anomalies & BI tests
-│   │   └── test_real_files.py  # Tests on real-world datasets (Auto_Sales, Retail, etc.)
-│   └── uploads/            # Secure directory for uploaded customer datasets
-└── frontend/
-    ├── src/
-    │   ├── pages/
-    │   │   ├── Dashboard.jsx   # Real-time KPIs, forecast chart, CI bands, What-If simulator
-    │   │   ├── Reports.jsx     # Tabbed ledgers, model scorecards, CSV/JSON/PDF exports
-    │   │   ├── UploadData.jsx  # File uploader, validation audit, lead time & SLA parameters
-    │   │   └── Login.jsx       # Authentication portal
-    │   ├── components/         # Reusable Navbar, UI components
-    │   └── assets/             # Sample forecast data & brand assets
+├── backend/   app.py · auth.py · config.py · model.py · upload.py · tests/ · uploads/
+└── frontend/  src/pages (Dashboard, Reports, UploadData, Login) · components · assets
 ```
 
 ---
 
-## 2. Why Previous Accuracy Fluctuated (40% – 75%) & How It Was Resolved
+## 🔬 How it works
 
-Prior implementations suffered from three fundamental structural defects:
+```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryTextColor':'#000000','textColor':'#000000','lineColor':'#333333','primaryColor':'#DBEAFE','primaryBorderColor':'#2563EB'}}}%%
+flowchart LR
+    A[1. Upload<br/>CSV / Excel] --> B[2. Clean<br/>+ remove duplicates]
+    B --> C[3. Group by<br/>day and month]
+    C --> D[4. Test<br/>6 models]
+    D --> E[5. Pick<br/>lowest error]
+    E --> F[6. Forecast<br/>stock, alerts, insights]
 
-1. **Transaction-Level Shifting Instead of Calendar Aggregation:**
-   - *Problem:* Applying `.shift(1)` to raw multi-transaction rows meant the model was lagging arbitrary adjacent invoice records within the same day rather than capturing true calendar-time dynamics.
-   - *Fix:* Ingestion now aggregates transactions into strictly monotonic calendar intervals (daily and monthly buckets), interpolating gaps and removing zero-revenue leakage before feature generation.
+    style A fill:#DBEAFE,stroke:#2563EB,color:#000000
+    style B fill:#DBEAFE,stroke:#2563EB,color:#000000
+    style C fill:#DBEAFE,stroke:#2563EB,color:#000000
+    style D fill:#FEF9C3,stroke:#CA8A04,color:#000000
+    style E fill:#FEF9C3,stroke:#CA8A04,color:#000000
+    style F fill:#DCFCE7,stroke:#16A34A,color:#000000
+```
 
-2. **MAPE Zero-Division Pitfalls:**
-   - *Problem:* When calculating Mean Absolute Percentage Error (MAPE), dividing by days or months with near-zero sales caused individual errors of $500\%+$, severely distorting aggregate accuracy.
-   - *Fix:* Replaced MAPE with **Weighted Absolute Percentage Error (WAPE)** and **Mean Absolute Scaled Error (MASE)**:
-     $$\text{WAPE} = \frac{\sum |y_t - \hat{y}_t|}{\sum |y_t|} \times 100\%$$
-     $$\text{MASE} = \frac{\text{MAE}_{\text{model}}}{\frac{1}{N-1} \sum_{i=2}^N |y_i - y_{i-1}|}$$
-     WAPE provides stable, volume-weighted error percentages, while MASE benchmarks against a naive persistence baseline (where $\text{MASE} < 1$ indicates superior performance).
+**The 6 models:** Ridge Regression · Gradient Boosting · Ridge + Boosting blend · Holt's Smoothing · Naive (same as last period) · Seasonal Naive (same as last cycle).
+Models are tested in **time order** (walk-forward). The one with the lowest **WAPE** wins.
 
-3. **Single-Model Bias:**
-   - *Problem:* Forcing a single regression model onto diverse commercial datasets resulted in poor generalization when demand patterns shifted between trended, seasonal, and intermittent regimes.
-   - *Fix:* Implemented **chronological walk-forward cross-validation** evaluating six candidate models:
-     - **Ridge Regression (L2 Regularized)**
-     - **Gradient Boosting Regressor (GBR)**
-     - **Ensemble Blend (Ridge + GBR)**
-     - **Holt's Linear Exponential Smoothing** (optimized via SciPy `minimize`)
-     - **Naive Persistence Baseline**
-     - **Seasonal Naive Baseline**
-   The engine automatically selects the winning model based on the lowest validation WAPE on holdout periods, consistently achieving **85% – 92%+** out-of-sample accuracy.
+### Why accuracy improved (from 40–75% to 85–92%+)
 
----
+| Old problem | Fix |
+|---|---|
+| Model compared neighbouring invoices, not real days | Sales are **added up per day and month** first |
+| A few near-zero sales days made the error look huge (MAPE) | Use **WAPE** (total error ÷ total sales) and **MASE** (are we better than "same as last period"?) |
+| One model for every business | **6 models** compete, best one wins |
 
-## 3. Mathematical Foundations & Inventory Optimization
-
-RevenueLens adheres to strict supply chain principles: it **never fabricates current stock from revenue** or invents missing data. If current inventory is not present in the uploaded file, it is transparently tagged as `CONFIGURED_BASELINE` rather than `DATA_PROVIDED`.
-
-### A. Safety Stock ($SS$)
-Protects against demand volatility during supplier replenishment lead time:
-$$SS = Z \times \sigma_d \times \sqrt{L}$$
-Where:
-- $Z$: Normal distribution critical value for target cycle service level (e.g., $Z \approx 1.645$ for 95% SLA, $Z \approx 2.326$ for 99% SLA).
-- $\sigma_d$: Standard deviation of historical daily unit demand.
-- $L$: Supplier lead time in calendar days (configurable in the UI).
-
-### B. Reorder Point ($ROP$)
-The inventory threshold triggering a replenishment purchase order:
-$$ROP = (d \times L) + SS$$
-Where $d$ is the expected average daily unit demand rate.
-
-### C. Suggested Order Quantity ($Q^*$)
-Replenishes inventory back to the target cycle buffer:
-$$Q^* = \begin{cases} \max\big(0, ROP + (d \times 30) - I_c\big) & \text{if } I_c \le ROP \\ 0 & \text{if } I_c > ROP \end{cases}$$
-Where $I_c$ is current on-hand inventory.
-
-### D. Stockout Risk Classifications
-- **OUT OF STOCK (`CRITICAL`):** $I_c \le 0$
-- **CRITICAL STOCKOUT RISK (`HIGH`):** $0 < I_c \le d \times L$ (stock insufficient to cover delivery lead time)
-- **REORDER NEEDED (`MEDIUM`):** $d \times L < I_c \le ROP$
-- **OVERSTOCK WARNING (`WARNING`):** Days of coverage $\frac{I_c}{d} > 60\text{ days}$
-- **HEALTHY / OPTIMAL (`LOW`):** Balanced inventory within safe replenishment cycle
+> 📘 **Example:** you sold 1,000 units and the forecast missed by 100 in total. That is a 10% error, so about 90% accurate.
 
 ---
 
-## 4. Local Statistical Anomaly Detection & Business Intelligence
+## 📦 Inventory
 
-- **Anomaly Detection:** Operates on daily aggregate sales using a centered 7-day rolling median baseline. Residuals are evaluated against the Interquartile Range ($IQR = Q_{75} - Q_{25}$):
-  $$\text{Upper Limit} = Q_{75} + 1.8 \times IQR$$
-  $$\text{Lower Limit} = Q_{25} - 1.8 \times IQR$$
-  Spikes ($+30\%$ above baseline) and dips ($-55\%$ below baseline) are classified into `HIGH`, `MEDIUM`, and `LOW` severity with contextual explanations.
-- **Pareto 80/20 Analysis:** Identifies the vital few products responsible for 80% of aggregate enterprise turnover.
-- **Day-of-Week Seasonality:** Discovers weekly demand concentrations (e.g., peak Friday order surges).
-- **What-If Scenario Simulator:** Allows business executives to adjust demand shocks ($\pm 50\%$), supplier lead times ($1–60\text{ days}$), and service level targets ($80\%–99\%$) with instantaneous recalculation of inventory risk and capital requirements.
+> [!IMPORTANT]
+> Current stock is **never invented**. If your file has no stock column, results are marked `CONFIGURED_BASELINE`. If it comes from your file, it is `DATA_PROVIDED`.
+
+| Term | Simple meaning | How it is worked out |
+|---|---|---|
+| **Safety Stock** | Extra stock kept for surprises | Bigger when daily sales jump around a lot, delivery is slow, or you want a higher service level |
+| **Reorder Point** | The stock level at which you should order again | Sales during delivery time + safety stock |
+| **Order Quantity** | How many units to order | Enough to reach the reorder point plus 30 days of sales |
+
+> 📘 **Example:** you sell 10 units a day, delivery takes 7 days, and safety stock is 15. Reorder when stock falls to **85** (10 × 7 + 15).
+
+```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryTextColor':'#000000','textColor':'#000000','lineColor':'#333333','primaryColor':'#FFFFFF'}}}%%
+flowchart TD
+    S([Current stock]) --> A{Zero or less?}
+    A -- Yes --> R1[🔴 OUT OF STOCK<br/>CRITICAL]
+    A -- No --> B{Less than demand<br/>during delivery?}
+    B -- Yes --> R2[🟠 STOCKOUT RISK<br/>HIGH]
+    B -- No --> C{At or below<br/>reorder point?}
+    C -- Yes --> R3[🟡 REORDER NEEDED<br/>MEDIUM]
+    C -- No --> D{More than<br/>60 days of stock?}
+    D -- Yes --> R4[🔵 OVERSTOCK<br/>WARNING]
+    D -- No --> R5[🟢 HEALTHY<br/>LOW]
+
+    style S fill:#FFFFFF,stroke:#333333,color:#000000
+    style A fill:#FFFFFF,stroke:#333333,color:#000000
+    style B fill:#FFFFFF,stroke:#333333,color:#000000
+    style C fill:#FFFFFF,stroke:#333333,color:#000000
+    style D fill:#FFFFFF,stroke:#333333,color:#000000
+    style R1 fill:#FEE2E2,stroke:#DC2626,color:#000000
+    style R2 fill:#FFEDD5,stroke:#EA580C,color:#000000
+    style R3 fill:#FEF9C3,stroke:#CA8A04,color:#000000
+    style R4 fill:#DBEAFE,stroke:#2563EB,color:#000000
+    style R5 fill:#DCFCE7,stroke:#16A34A,color:#000000
+```
 
 ---
 
-## 5. Getting Started & Installation
+## 🚨 Anomalies and insights
 
-### Prerequisites
-- Node.js (v18+) and npm
-- Python 3.10+
-- MySQL Server (optional for mock/offline runs, required for persistent auth)
+- **How anomalies are found:** compare each day with a 7-day rolling median. Days far outside the normal range (IQR method) are flagged.
+- **Spike:** 30%+ above normal. **Dip:** 55%+ below normal. Each gets a HIGH / MEDIUM / LOW level and a short reason.
+- **What-If tool:** demand ±50% · delivery time 1–60 days · service level 80–99%.
 
-### Backend Setup
+---
+
+## 🚀 Setup
+
+**Requirements:** Node.js 18+, Python 3.10+, MySQL (needed only for login).
+
 ```bash
-# Navigate to backend directory
+# Backend  (http://localhost:5000)
 cd backend
-
-# Create virtual environment (if not already present)
 python3 -m venv venv
-source venv/bin/activate   # On Windows: venv\Scripts\activate
-
-# Install dependencies
+source venv/bin/activate          # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-
-# Run the automated test suite
-PYTHONPATH=. backend/venv/bin/python -m unittest discover backend/tests
-
-# Start the Flask backend server (port 5000)
-backend/venv/bin/python app.py
+python app.py
 ```
 
-### Frontend Setup
 ```bash
-# Navigate to frontend directory
+# Frontend  (http://localhost:5173) - open a new terminal
 cd frontend
-
-# Install npm dependencies
 npm install
-
-# Run ESLint & production build verification
-npm run lint
-npm run build
-
-# Start Vite development server (port 5173)
 npm run dev
 ```
 
----
-
-## 6. API Reference
-
-| Endpoint | Method | Description |
-|---|---|---|
-| `/api/upload` | `POST` | Multipart upload for `.csv` and `.xlsx` files; returns schema detection, row counts, deduplication audit, and preview rows. |
-| `/api/forecast` | `POST` | Runs the full ML pipeline: chronological backtesting, model scorecard, 3-month forecast, 30-day CI curve, inventory ROP, anomalies, and BI insights. Accepts `{ file_path, lead_time_days, service_level, demand_shock_pct }`. |
-| `/api/health` | `GET` | Health check probe returning server status and uptime. |
-| `/api/login` | `POST` | Authenticates existing user and returns JWT token. |
-| `/api/register` | `POST` | Registers new user account in MySQL database. |
-
----
-
-## 7. Automated Test Execution
-
-The codebase contains 10 rigorous unit and integration tests covering data cleaning, backtesting, formulas, and real files:
-
 ```bash
-PYTHONPATH=. backend/venv/bin/python -m unittest discover backend/tests
+# Tests
+cd backend && PYTHONPATH=. python -m unittest discover tests
 ```
-**Results:**
-- `test_01_read_file_and_column_detection`: PASSED
-- `test_02_data_cleaning_and_validation`: PASSED
-- `test_03_accuracy_metric_formulas`: PASSED
-- `test_04_multi_model_chronological_backtesting`: PASSED
-- `test_05_30day_daily_curve_with_confidence_intervals`: PASSED
-- `test_06_product_inventory_optimization`: PASSED
-- `test_07_anomaly_detection_and_bi`: PASSED
-- `test_08_run_forecast_end_to_end`: PASSED
-- `test_auto_sales_csv`: PASSED
-- `test_excel_file_if_present`: PASSED
+
+> [!WARNING]
+> Set your database details and JWT secret in `backend/.env`. Never commit real passwords.
 
 ---
 
-## 8. Honest Limitations & Boundary Conditions
+## 🔌 API
 
-1. **Short Time-Series (< 4 Months):** Datasets spanning fewer than 4 months lack sufficient history for cross-validation of complex gradient boosted trees. RevenueLens transparently falls back to an adaptive persistence naive model with lower confidence thresholds rather than fabricating accuracy.
-2. **Missing Inventory Columns:** When uploaded sales files do not include on-hand stock columns, inventory recommendations are derived from baseline cycle parameters and clearly marked as `CONFIGURED_BASELINE`.
-3. **Macro-Economic Black Swans:** Statistical models project based on historical customer patterns and cannot predict unprecedented external market disruptions without exogenous indicators.
+| Method | Endpoint | Purpose |
+|:-:|---|---|
+| POST | `/api/upload` | Upload `.csv` / `.xlsx`. Returns detected columns, row counts, duplicates removed, preview |
+| POST | `/api/forecast` | Full pipeline. Body: `{ file_path, lead_time_days, service_level, demand_shock_pct }` |
+| GET | `/api/health` | Server status and uptime |
+| POST | `/api/login` | Log in, returns JWT |
+| POST | `/api/register` | Create account |
+
+---
+
+## ⚠️ Limits
+
+| Situation | What happens |
+|---|---|
+| Less than 4 months of data | Falls back to a simple naive model with lower confidence |
+| No stock column in the file | Uses your settings, marked `CONFIGURED_BASELINE` |
+| Sudden big events (crisis, pandemic) | Cannot be predicted from past data alone |
+| Accuracy (85–92%+) | Measured on tested datasets. Your result depends on your data, so check the in-app model score |
+
+---
+
+ 

@@ -1,11 +1,11 @@
-<div align="center">
+<div align="center"> <img src="logo.png" width="340" alt="RevenueLens"/> <br/>
+AI Sales Intelligence & Supply Chain Platform
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0F172A,50:2563EB,100:06B6D4&height=200&section=header&text=RevenueLens&fontSize=60&fontColor=ffffff&fontAlignY=38&desc=Predict%20your%20sales.%20Never%20run%20out%20of%20stock.&descSize=20&descAlignY=60" alt="RevenueLens" width="100%"/>
+Forecast your sales. Plan your stock. Never run out.
 
-<img src="https://img.shields.io/badge/React-Vite-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React"/>
-<img src="https://img.shields.io/badge/Flask-Python%203.10+-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask"/>
-<img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL"/>
-<img src="https://img.shields.io/badge/tests-10%20passing-brightgreen?style=for-the-badge" alt="tests"/>
+<img src="https://img.shields.io/badge/React-Vite-2563EB?style=flat-square&logo=react&logoColor=white" alt="React"/> <img src="https://img.shields.io/badge/Flask-Python%203.10+-4F46E5?style=flat-square&logo=flask&logoColor=white" alt="Flask"/> <img src="https://img.shields.io/badge/MySQL-7C3AED?style=flat-square&logo=mysql&logoColor=white" alt="MySQL"/> <img src="https://img.shields.io/badge/accuracy-85%25%E2%80%9392%25%2B-4F46E5?style=flat-square" alt="Accuracy"/> <img src="https://img.shields.io/badge/tests-10%20passing-22C55E?style=flat-square" alt="Tests"/> <br/>
+
+Features · Architecture · How it works · Setup · API · Limits
 
 </div>
 

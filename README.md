@@ -1,4 +1,4 @@
-<div align="center"> <img src="logo.png" width="340" alt="RevenueLens"/> <br/>
+<div align="center"> <img src="Logo.png" width="340" alt="RevenueLens"/> <br/>
 AI Sales Intelligence & Supply Chain Platform
 
 Forecast your sales. Plan your stock. Never run out.
